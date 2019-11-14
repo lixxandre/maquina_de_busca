@@ -10,6 +10,8 @@
 
 using namespace std;
 
+map<string, set<string> > M;
+
 string Tratamento(string str){
     string palavras;
     char temp;
@@ -34,7 +36,7 @@ void ler_arquivo(string str) {
     if(ifs.is_open()) {
     while(!ifs.eof()) {
       ifs >> temp;
-      temp = CleanString(temp);
+      temp = Tratamento(temp);
       if(temp.length() >= 1) {
         M[temp].insert(str);
       }
@@ -42,6 +44,17 @@ void ler_arquivo(string str) {
   } else {
     cout << "Arquivo nao encontrado" << endl;
   }
+}
+
+set<string> split(string str) {
+  stringstream ss(str);
+  string aux;
+  set<string> splittedString;
+  while (getline(ss, aux, ' ')) {
+    aux = Tratamento(aux);
+    splittedString.insert(aux);
+  }
+  return splittedString;
 }
 
 
