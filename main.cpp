@@ -7,6 +7,7 @@
 #include <fstream>
 #include <set>
 #include <sstream>
+#include <math.h>
 
 using namespace std;
 
@@ -58,4 +59,55 @@ set<string> split(string str) {
 }
 
 
+// Px palavra
+// d_j documento j 
+// tf frequencia que a palvra Px aparece em d_j
+
+
+
+//(idf) importancia de Px em d_j 
+float calc_importancia(int N, int nx){  
+  return log(N/nx);              // N numero de documentos
+                                // nx quantidade de documentos que a palavra Px aparece
+}
+
+//coordenada do documento dj no eixo Pt
+float coordenadas(int frequencia, int importancia){
+  return frequencia * importancia;                    //frequencia da palavra Pt no documento dj
+                                                      //importancia de Pt na coleção
+}
+
+//calcula o produto interno entre dois vetores
+float produto_interno(vector<float> &Q, vector<float> &D){
+  vector<float>::iterator itq = Q.begin(); 
+  vector<float>::iterator itd = D.begin(); 
+  
+  float dot = 0;
+  for(itq, itd; itq != Q.end() && itd != D.end(); itq++, itd++){ 
+    dot += (*itd) * (*itq);  
+  }
+
+  return dot;
+}
+
+float norma(vector<float> &v){
+  return sqrt(produto_interno(v,v));
+}
+
+//calcula a similaridade entre um vetor de busca e um vetor documento
+float similaridade(float normaQ, float normaD, float QdotD){
+  return  QdotD/(normaQ * normaD);
+}
+
+
+
+int main(){
+  int N = 2;
+
+  vector<float> v(N);
+    for (int i=0; i<N; i++)
+        cin >> v[i];
+    cout << norma(v);
+    
+} 
 
