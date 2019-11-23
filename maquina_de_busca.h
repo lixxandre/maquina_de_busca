@@ -25,12 +25,10 @@ class MaquinaDeBusca{
 
         static set<string> split(string str);
 
-        //dado um vector representando o texto retorna um map com a frequencia de cada palavra no texto
-        static map<string, int> frequenciaMap(vector<string> texto);
-
         //dado um vector representando o texto retorna um map com a importancia de cada palavra no texto
         static map<string, float> importanciaMap(vector<string> texto);
 
+        static map<string, int> frequenciaCount(vector<string> texto);
 
         //(idf) importancia de Px em d_j: log(N/nx)
         static float calc_importancia(int N, int nx);

@@ -10,12 +10,14 @@ void print_map(map<string, int> const &mapa)
     }
 }
 
+
 void print_map_float(map<string, float> const &mapa)
 {
     for (auto const& pair: mapa) {
         std::cout << "{" << pair.first << ": " << pair.second << "}\n";
     }
 }
+
 
 void print_indice_invertido(map<string, vector<int> > const &mapa)
 {
@@ -29,6 +31,7 @@ void print_indice_invertido(map<string, vector<int> > const &mapa)
     }
 }
 
+
 string Tratamento(string str){
     string palavras;
     char temp;
@@ -37,11 +40,15 @@ string Tratamento(string str){
     for (int i = 0; i < n; i++){
         temp = tolower(str[i]); // funcao para converter para minisculo
         if ((temp >= 'a' && temp <= 'z') || (temp >= '0' && temp <= '9')){
+          if(temp == '-'){
+            temp = ' ';
+          }
             palavras.push_back(temp);
         }
     }
     return palavras;
 }
+
 
 set<string> split(string str) {
   stringstream ss(str);
@@ -53,7 +60,6 @@ set<string> split(string str) {
   }
   return splittedString;
 }
-
 
 
 //dado um vector representando o texto retorna um map com a frequencia de cada palavra no texto 
@@ -68,26 +74,13 @@ map<string, int> frequenciaCount(vector<string> texto){
   return frequencia;
 }
 
+
 //(idf) importancia de Px em d_j 
 float calc_importancia(int N, int nx){  
   float x = log((float)N/nx);  
-  return x;              // N numero de documentos
+  return x;                     // N numero de documentos
                                 // nx quantidade de documentos que a palavra Px aparece
 }
-
-/*    
-//dado um vector representando o dicionario retorna um map com a importancia de cada palavra
-map<string, float> importancia-Map(map<string, vector<int>> indice_invertido, int N_docs, map<string,int> n_incidencia){
-  map<string, float> importancia; 
-  
-  vector<string>::iterator palavra = dicionario.begin();   
-  for(palavra ; palavra != dicionario.end() ; palavra++){ 
-    importancia[*palavra] = calc_importancia(N_docs, n_incidencia[*palavra]);
-  }
-
-  return importancia;
-}
-*/
 
 
 //retorna um map com [ palavra x importancia cancelado: qtd de documentos que ela aparece ] 
@@ -104,7 +97,6 @@ map<string, float> importanciaMap( map<string, vector<int> > *indice_invertido, 
   
   return mapa_importancia;
 }
-
 
 //calcula o produto interno entre dois vetores
 float produto_interno(vector<float> &Q, vector<float> &D){
@@ -134,14 +126,13 @@ vector<float> vetorDoc(map<string, int> frequencia, map<string, float> importanc
   return D;
 }
 
-
 //calcula a similaridade entre um vetor de busca e um vetor documento
 float similaridade(float normaQ, float normaD, float QdotD){
   return  QdotD/(normaQ * normaD);
 }
 
-// le arquivo e retorna um map [palavra x frequencia no arquivo]
-// marca no indice invertido que a palavra está presente no arquivo
+//le arquivo e retorna um map [palavra x frequencia no arquivo]
+//marca no indice invertido que a palavra está presente no arquivo
 map<string,int> ler_arquivo(string filename, map<string, vector<int>> *indice_invertido, int id_doc, int N) {
     // filestream variable file 
     fstream file; 
@@ -149,13 +140,11 @@ map<string,int> ler_arquivo(string filename, map<string, vector<int>> *indice_in
     string tratada;
     map<string,int> dic_freq;   
     
-    // opening file 
+    //abrindo o arquivo 
     file.open(filename.c_str()); 
   
-    // extracting words from the file 
-    while (file >> palavra) 
-    { 
-        // displaying content 
+    //extraindo as palavras do arquivo
+    while (file >> palavra){         
         tratada = Tratamento(palavra);
         if(tratada != ""){
           //incrementa frequencia da palvra no doc
@@ -179,26 +168,10 @@ map<string,int> ler_arquivo(string filename, map<string, vector<int>> *indice_in
     return dic_freq;
 }
 
-bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { 
- return v1[1] < v2[1]; 
-} 
-
-
 
 
 
 int main(){
-  
-  map<string, vector<int> > mapa;
-  vector<int> vetor{0, 1, 1, 0, 1};
-  mapa["coco"] = vetor;
-  map <string, int > dicionario;
-  
- 
-  // dicionario = ler_arquivo("arquivo", indice_invertido, 1,1);
-  
-  // cout << accumulate(dicionario1["na"].begin(), dicionario1["na"].end(),0); 
-  
   
   //------------- COMEÇANDO DE VERDADE -------------- 
   map<string, vector<int> > indice_invertido;
@@ -229,8 +202,6 @@ int main(){
     id_doc++;
   }
 
-  //calculando o numero de arquivos que cada palavra aparece
-  //retorna um map com [ palavra x qtd de documentos que ela aparece ] 
   //dado um vector representando o dicionario retorna um map com a importancia de cada palavra
   map<string, float> mapa_importancia;
   mapa_importancia = importanciaMap(&indice_invertido,file_names.size());
@@ -268,6 +239,7 @@ int main(){
 
   for(i = 0; i < querry.size(); i++){
     //incrimenta frequencia na pesquisa
+    querry[i] = Tratamento(querry[i]);
     querry_Px_freq[ querry[i] ]++;
   }
   //criando vetor que representa a busca
@@ -294,7 +266,6 @@ int main(){
   }
   
   //exibindo a classificacao
-
   vector<string> final; 
   
   cout << endl << "Ranking" << endl;
@@ -308,7 +279,15 @@ int main(){
     cout << final[i] << endl; 
   }
   
+  /*
+  cout << endl; 
+  cout << "Deseja realizar uma nova consultar? Digite 1 ou 0" << endl << "1 - sim" << endl << "0 - não"<< endl;
+  cin >> loop;
+  */
 
+  
+  
+  
     
 } 
 
