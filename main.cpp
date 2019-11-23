@@ -172,8 +172,10 @@ map<string,int> ler_arquivo(string filename, map<string, vector<int>> *indice_in
         }
         
     }
+    /*
     cout << "------INDICE INVERTIDO --------" << endl;
     print_indice_invertido(*indice_invertido);
+    */
     return dic_freq;
 }
 
@@ -203,7 +205,7 @@ int main(){
 
   //recebendo nome dos arquivos
   string entrada;
-  cout << "Digite o nome dos arquivos separados por espaço (incluindo a extensão de cada um)"; 
+  cout << "Digite o nome dos arquivos separados por espaço (incluindo a extensão de cada um)" << endl; 
   getline(cin, entrada);
 
   istringstream iss(entrada);
@@ -221,7 +223,7 @@ int main(){
   //abrindo cada arquivo
   for(arquivo; arquivo != file_names.end(); arquivo++){
     
-    cout << "lendo o arquivo: " <<  *arquivo << endl;
+    //cout << "lendo o arquivo: " <<  *arquivo << endl;
     doc_Px_freq[id_doc] = ler_arquivo(*arquivo, &indice_invertido, id_doc, file_names.size());  
     
     id_doc++;
@@ -233,8 +235,10 @@ int main(){
   map<string, float> mapa_importancia;
   mapa_importancia = importanciaMap(&indice_invertido,file_names.size());
 
+  /*
   cout << endl << "MAPA DE IMPORTANCIA" << endl; 
   print_map_float(mapa_importancia); 
+  */
 
   //calcular o vetor para cada doc
   vector< vector<float> > space_doc(file_names.size()+1); 
@@ -248,19 +252,16 @@ int main(){
     }
     space_doc[id_doc] = D;
   }
-  //vetor do doc1
-  cout << endl << space_doc[1][0] << " " << space_doc[1][1] << " " << space_doc[1][2] << endl;
   
   //Recebendo uma consulta
   string consulta;
-  cout << "Digite digite as palavras da consulta separadas por espaço"; 
+  cout << "Digite digite as palavras da consulta separadas por espaço" << endl; 
   getline(cin, consulta);
 
   istringstream iss2(consulta);
   vector<string> querry{
     std::istream_iterator<string>(iss2), {}
   };
-  cout << querry[0] << " " << querry[1];
   
   map<string, int> querry_Px_freq;
   int i;
@@ -273,28 +274,18 @@ int main(){
   vector<float> Q; 
 
   float y;
-  cout << endl;
-  for (auto const& pair: indice_invertido) {
-    cout<< "importancias" << endl;
-    cout << pair.first << ": "<<  mapa_importancia[pair.first] << endl; //importancias tao certas 
-    y = querry_Px_freq[pair.first] * mapa_importancia[pair.first] ;
-    cout << "para " << pair.first << "-->" << querry_Px_freq[pair.first] << "x" << mapa_importancia[pair.first] << "=" << y << endl; 
-    
+  for (auto const& pair: indice_invertido) {    
+    y = querry_Px_freq[pair.first] * mapa_importancia[pair.first] ;  
     Q.push_back(y);
-    
   }
   //vetor de busca
   
-  cout << endl << Q[0] << " " << Q[1] <<  " " << Q[2] << endl;
   
-  //classificando documentos
-  
+  //classificando documentos  
   map<float, string> map;  
   
-  cout << "tamanho::: " << file_names.size() << endl;
 
-  for(id_doc = 1; id_doc <= file_names.size(); id_doc++){
-    cout << id_doc << "------";
+  for(id_doc = 1; id_doc <= file_names.size(); id_doc++){   
     float normaQ = norma(Q); 
     float normaD = norma(space_doc[id_doc]);
     float QdotD = produto_interno(Q, space_doc[id_doc]);
@@ -304,11 +295,19 @@ int main(){
   
   //exibindo a classificacao
 
+  vector<string> final; 
   
-  cout << endl << "classficação" << endl;
+  cout << endl << "Ranking" << endl;
   for (auto const& pair: map) {
-    cout << pair.second << endl;
+    //cout << pair.second << endl;
+    final.push_back(string(pair.second));
   }
+  
+
+  for(i = final.size()-1 ; i >= 0; i--){
+    cout << final[i] << endl; 
+  }
+  
 
     
 } 
