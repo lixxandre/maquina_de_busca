@@ -100,7 +100,6 @@ map<string, float> importanciaMap( map<string, vector<int> > *indice_invertido, 
     
     mapa_importancia[pair.first] = calc_importancia(N_docs, mapa_incidencia[pair.first]);
 
-    cout << N_docs << "/" << mapa_incidencia[pair.first] << "=" << mapa_importancia[pair.first] << endl;
   }
   
   return mapa_importancia;
@@ -178,6 +177,11 @@ map<string,int> ler_arquivo(string filename, map<string, vector<int>> *indice_in
     return dic_freq;
 }
 
+bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { 
+ return v1[1] < v2[1]; 
+} 
+
+
 
 
 
@@ -247,13 +251,65 @@ int main(){
   //vetor do doc1
   cout << endl << space_doc[1][0] << " " << space_doc[1][1] << " " << space_doc[1][2] << endl;
   
+  //Recebendo uma consulta
+  string consulta;
+  cout << "Digite digite as palavras da consulta separadas por espaço"; 
+  getline(cin, consulta);
 
-
-
-
-
- 
+  istringstream iss2(consulta);
+  vector<string> querry{
+    std::istream_iterator<string>(iss2), {}
+  };
+  cout << querry[0] << " " << querry[1];
   
+  map<string, int> querry_Px_freq;
+  int i;
+
+  for(i = 0; i < querry.size(); i++){
+    //incrimenta frequencia na pesquisa
+    querry_Px_freq[ querry[i] ]++;
+  }
+  //criando vetor que representa a busca
+  vector<float> Q; 
+
+  float y;
+  cout << endl;
+  for (auto const& pair: indice_invertido) {
+    cout<< "importancias" << endl;
+    cout << pair.first << ": "<<  mapa_importancia[pair.first] << endl; //importancias tao certas 
+    y = querry_Px_freq[pair.first] * mapa_importancia[pair.first] ;
+    cout << "para " << pair.first << "-->" << querry_Px_freq[pair.first] << "x" << mapa_importancia[pair.first] << "=" << y << endl; 
+    
+    Q.push_back(y);
+    
+  }
+  //vetor de busca
+  
+  cout << endl << Q[0] << " " << Q[1] <<  " " << Q[2] << endl;
+  
+  //classificando documentos
+  
+  map<float, string> map;  
+  
+  cout << "tamanho::: " << file_names.size() << endl;
+
+  for(id_doc = 1; id_doc <= file_names.size(); id_doc++){
+    cout << id_doc << "------";
+    float normaQ = norma(Q); 
+    float normaD = norma(space_doc[id_doc]);
+    float QdotD = produto_interno(Q, space_doc[id_doc]);
+
+    map[similaridade(normaQ, normaD, QdotD)] = file_names[id_doc-1];
+  }
+  
+  //exibindo a classificacao
+
+  
+  cout << endl << "classficação" << endl;
+  for (auto const& pair: map) {
+    cout << pair.second << endl;
+  }
+
     
 } 
 

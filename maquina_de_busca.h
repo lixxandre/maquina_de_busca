@@ -11,6 +11,7 @@
 #include <numeric>      // std::accumulate
 #include <sstream>      // std::istringstream
 #include <iterator>     // std::istream_iterator
+#include <set>
 
 
 using namespace std;
