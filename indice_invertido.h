@@ -11,8 +11,6 @@ using namespace std;
 
 class IndiceInvertido{
     private:
-        virtual string tratar(string str);
-
         //cabe inicializar 
         int N_docs;
         vector<string> file_names;        
@@ -22,8 +20,7 @@ class IndiceInvertido{
     friend class teste;
 
     public:
-         
-
+        virtual string tratar(string str) const; 
         
         //cria um indice invertido vazio para os documentos passados no vetor
         IndiceInvertido(vector<string> file_names);
