@@ -20,12 +20,12 @@ class MaquinaDeBusca{
         MaquinaDeBusca(IndiceInvertido indice_invertido);
         
         //calcula o produto interno entre dois vetores
-        float produto_interno(vector<float> &Q, vector<float> &D);
+        static float produto_interno(vector<float> &Q, vector<float> &D);
 
-        float norma(vector<float> &v);
+        static float norma(vector<float> &v);
 
         //calcula a similaridade entre um vetor de busca e um vetor documento        
-        float similaridade(float normaQ, float normaD, float QdotD);
+        static float similaridade(float normaQ, float normaD, float QdotD);
         
         void cos_ranking(IndiceInvertido indice_invertido); 
 

@@ -3,11 +3,6 @@
 #include "indice_invertido.h"
 #include "doctest.h"
 
-#include <algorithm>
-#include <iostream>
-#include <limits>
-#include <cmath>
-
 using std::string;
 
 TEST_SUITE("Indice Invertido") {
@@ -20,11 +15,11 @@ TEST_SUITE("Indice Invertido") {
         CHECK(outz =="bbbb");
 
         string a = "aa-aa";
-        string b = "bb.bb";
+        string b = "bb";
         string outa = IndiceInvertido::tratar(a);
         string outb = IndiceInvertido::tratar(b);
-        CHECK(outa == "aa aa");
-        CHECK(outb == "bb bb");
+        CHECK(outa == "aa");
+        CHECK(outb == "bb");
     }
 
 }

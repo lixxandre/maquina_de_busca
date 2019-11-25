@@ -16,11 +16,9 @@ class IndiceInvertido{
         vector<string> file_names;        
         vector< map<string, int> > doc_Px_freq; 
         map<string, vector<int> > mapa;
-    
-    friend class teste;
 
     public:
-        virtual string tratar(string str) const; 
+        static string tratar(string str); 
         
         //cria um indice invertido vazio para os documentos passados no vetor
         IndiceInvertido(vector<string> file_names);

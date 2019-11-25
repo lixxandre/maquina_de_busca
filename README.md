@@ -1,6 +1,17 @@
 # maquina_de_busca
 Trabalho pratico PDS II
 
-     Tratamento       // transforma maiusculo em minisculo e retira o que nao é letra ou numero
-     ler_arquivo     //  funcao para ler arquivo
-     funcao para transformar - em espaco
+**para compilar e executar no linux**
+
+$ g++ -c indice_invertido.cpp && g++ -c maquina_de_busca.cpp && g++ -c main.cpp && g++ indice_invertido.o maquina_de_busca.o main.o && ./a.out
+
+Entrada: 
+(assim que solicitado)
+nome dos arquivos separados por espaço (incluindo a extensão)
+
+(assim que solicitado)
+palavras que deseja buscar separadas por espaço
+
+**Para executar os testes no linux**
+
+$ g++ -c indice_invertido.cpp && g++ -c maquina_de_busca.cpp && g++ -c teste.cpp && g++ indice_invertido.o maquina_de_busca.o teste.o && ./a.out

@@ -12,7 +12,7 @@ IndiceInvertido::IndiceInvertido(vector<string> nomes_arquivos){
     doc_Px_freq = vetor; 
 }
 
-std::string IndiceInvertido::tratar(std::string str) const{
+string IndiceInvertido::tratar(string str){
     string palavras;
     char temp;
     int n = str.length();
