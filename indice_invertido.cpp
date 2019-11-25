@@ -12,21 +12,22 @@ IndiceInvertido::IndiceInvertido(vector<string> nomes_arquivos){
     doc_Px_freq = vetor; 
 }
 
-string IndiceInvertido::tratar(string str){
-    string palavras;
+string IndiceInvertido::tratar_az_09_hifem(string str){
+    string palavra;
     char temp;
     int n = str.length();
 
     for (int i = 0; i < n; i++){
         temp = tolower(str[i]); // funcao para converter para minisculo
-        if ((temp >= 'a' && temp <= 'z') || (temp >= '0' && temp <= '9')){
-          if(temp == '-'){
+        if ((temp >= 'a' && temp <= 'z') || (temp >= '0' && temp <= '9')){          
+          palavra.push_back(temp);
+        }
+        if(temp == '-'){
             temp = ' ';
-          }
-            palavras.push_back(temp);
+            palavra.push_back(temp);
         }
     }
-    return palavras;
+    return palavra;
 }
 
 //insere as palavras de um novo documento ao indice
@@ -38,27 +39,41 @@ void IndiceInvertido::inserir(const string& filename, int id_doc){
     map<string,int> dic_freq;   
     
     //abrindo o arquivo 
-    file.open(filename.c_str()); 
-  
-    //extraindo as palavras do arquivo
-    while (file >> palavra){         
-        tratada = tratar(palavra);
-        if(tratada != ""){
-          //incrementa frequencia da palvra no doc
-          dic_freq[tratada]++;
+    file.open(filename.c_str());
 
-          //palavra esta presente no documento
-          if ((mapa).count(tratada) > 0){
-            (mapa)[tratada][id_doc] = 1;
-          }else{
-            vector<int> novo(N_docs+2); 
-            novo[id_doc] = 1;
-            (mapa)[tratada] = novo; 
-          }
-        }
-        
+    string str;
+    vector<string> texto_sem_pontuacao;
+    
+    while (file >> str){
+      str.erase(remove_if(str.begin(), str.end(), ::ispunct), str.end()); 
+      //str.erase(remove(str.begin(),str.end(),'\"'),str.end());
+      transform(str.begin(), str.end(), str.begin(), ::tolower);
+
+      texto_sem_pontuacao.push_back(str);
     }
-    doc_Px_freq[id_doc] = dic_freq;
+
+    //extraindo as palavras do arquivo
+    int i;
+    for(i = 0; i < texto_sem_pontuacao.size(); i++) {
+      string palavra = texto_sem_pontuacao[i];
+
+      tratada = tratar_az_09_hifem(palavra);
+      if(tratada != ""){
+        //incrementa frequencia da palvra no doc
+        dic_freq[tratada]++;
+
+        //palavra esta presente no documento
+        if ((mapa).count(tratada) > 0){
+          (mapa)[tratada][id_doc] = 1;
+        }else{
+          vector<int> novo(N_docs+2); 
+          novo[id_doc] = 1;
+          (mapa)[tratada] = novo; 
+        }
+      }
+        
+  }
+  doc_Px_freq[id_doc] = dic_freq;
 
 }
 

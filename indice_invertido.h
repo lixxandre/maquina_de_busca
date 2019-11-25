@@ -6,6 +6,7 @@
 #include <map>
 #include <set>
 #include <fstream> //ler aquivo
+#include <algorithm>
 
 using namespace std;
 
@@ -18,7 +19,8 @@ class IndiceInvertido{
         map<string, vector<int> > mapa;
 
     public:
-        static string tratar(string str); 
+        //mantem só letras e numeros, troca ifem por espaço
+        static string tratar_az_09_hifem(string str); 
         
         //cria um indice invertido vazio para os documentos passados no vetor
         IndiceInvertido(vector<string> file_names);

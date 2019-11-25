@@ -6,20 +6,17 @@
 using std::string;
 
 TEST_SUITE("Indice Invertido") {
-    TEST_CASE("tratar()"){
+    TEST_CASE("tratar_az_09_hifem()"){
         string f = "VOCE?";
         string z = "BBBB";
-        string outf = IndiceInvertido::tratar(f);
-        string outz = IndiceInvertido::tratar(z);
+        string outf = IndiceInvertido::tratar_az_09_hifem(f);
+        string outz = IndiceInvertido::tratar_az_09_hifem(z);
         CHECK(outf =="voce");
         CHECK(outz =="bbbb");
 
         string a = "aa-aa";
-        string b = "bb";
-        string outa = IndiceInvertido::tratar(a);
-        string outb = IndiceInvertido::tratar(b);
-        CHECK(outa == "aa");
-        CHECK(outb == "bb");
+        string outa = IndiceInvertido::tratar_az_09_hifem(a);
+        CHECK(outa == "aa aa");
     }
 
 }
@@ -43,13 +40,14 @@ TEST_SUITE("Maquina de Busca") {
         CHECK(out == (6));
     }
 
-    TEST_CASE("similaridade"){
+    TEST_CASE("similaridade com 2 casas decimais de precisão"){
         float Q,D,QD;
         Q=6;
         D=9;
         QD=10;
-        float out = MaquinaDeBusca::similaridade(Q,D,QD); 
-        CHECK( out == (0.18518));
+        float out = MaquinaDeBusca::similaridade(Q,D,QD);
+        out = floorf(out * 100) / 100;
+        CHECK( out == (float) 0.18);
     }
 
 }
