@@ -1,50 +1,39 @@
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <algorithm>
+#ifndef NOVA_MAQUINA_DE_BUSCA_H
+#define NOVA_MAQUINA_DE_BUSCA_H
+
+#include "indice_invertido.h"
+
 #include <map>
-#include <fstream>
-#include <set>
-#include <sstream>
-#include <math.h>
+#include <vector>
 #include <numeric>      // std::accumulate
-#include <sstream>      // std::istringstream
-#include <iterator>     // std::istream_iterator
-#include <set>
+#include <math.h>
+#include <iostream>
+#include <algorithm> //sort
 
-
-using namespace std;
 
 class MaquinaDeBusca{
+    private:
+        map<string, float> mapa_importancia;
+        vector< vector<float> > space_doc;
+
     public:
-
-        static string Tratamento(string str);
-
-        static void ler_arquivo(string str);
-
-        static set<string> split(string str);
-
-        //dado um vector representando o texto retorna um map com a importancia de cada palavra no texto
-        static map<string, float> importanciaMap(vector<string> texto);
-
-        static map<string, int> frequenciaCount(vector<string> texto);
-
-        //(idf) importancia de Px em d_j: log(N/nx)
-        static float calc_importancia(int N, int nx);
-
-        //cria vetor que representa o documento
-        static vector<float> vetorDoc(map<string, int> frequencia, map<string, float> importancia, vector<string> dicionario){
-
+        MaquinaDeBusca(IndiceInvertido indice_invertido);
+        
         //calcula o produto interno entre dois vetores
         float produto_interno(vector<float> &Q, vector<float> &D);
 
         float norma(vector<float> &v);
 
-        //calcula a similaridade entre um vetor de busca e um vetor documento
-        //produto interno de (u com v) / norma(u) * norma (v)
+        //calcula a similaridade entre um vetor de busca e um vetor documento        
         float similaridade(float normaQ, float normaD, float QdotD);
+        
+        void cos_ranking(IndiceInvertido indice_invertido); 
+
+        ~MaquinaDeBusca();
 
 
-    }
+
 };
+
+
+#endif 

@@ -11,49 +11,28 @@ using std::string;
 
 TEST_SUITE("MaquinaDeBusca") {
     TEST_CASE("Tratamento"){
-        string a = "OI";
-        string b = "VOCE";
-        string c = "DIA.?";
-
-        Tratamento(a);
-        Tratamento(b);
-        Tratamento(c);
-
-        CHECK(a == "oi");
-        CHECK(b == "voce");
-        CHECK(c == "dia");
+        string f = "VOCE?";
+        string z = "BBBB";
+        MaquinaDeBusca::Tratamento(f);
+        MaquinaDeBusca::Tratamento(z);
+        CHECK(f =="voce");
+        CHECK(z =="bbbb");
     }
+
+    TEST_CASE("ler_arquivo"){}
+
     TEST_CASE("split"){
-        string a = "guarda-chuvas";
-        string b = "oi.oi";
-        string c = "dia-a-dia?";
-
-        split(a);
-        split(b);
-        split(c);
-
-        CHECK(a == "guardachuvas");
-        CHECK(b == "oioi");
-        CHECK(c == "diaadia");
+        string f = "aa-aa";
+        string z = "bb.bb";
+        MaquinaDeBusca::Tratamento(f);
+        MaquinaDeBusca::Tratamento(z);
+        CHECK(f == "aa aa");
+        CHECK(z == "bb bb");
     }
 
-    TEST_CASE("frequenciaCount"){
-        string a[5], b[5];
-        int c = 0;
-        a[0] = "oi";
-        a[1] = "oi";
-        a[2] = "tudo";
-        a[3] = "bem";
-        a[4] = "bem";
+    TEST_CASE("importanciaMap"){}
 
-        for(int i = 0; i < 5; i++){
-            b[i] = a[i];
-        }
-
-        frequenciaCount(5, a, b, c);
-
-        CHECK(c == 2);
-    }
+    TEST_CASE("frequenciaCount"){}
 
     TEST_CASE("calc_importancia"){
         float N = 5;
@@ -66,6 +45,8 @@ TEST_SUITE("MaquinaDeBusca") {
         nx = 2;
         CHECK(MaquinaDeBusca::calc_importancia(N,nx) == (0.30103));
     }
+
+    TEST_CASE("vetorDoc"){}
 
     TEST_CASE("produto_interno"){
         vector<float> q;
